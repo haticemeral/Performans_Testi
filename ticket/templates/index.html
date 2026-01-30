@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="text-center mb-4">
+    <h1 class="display-5 fw-bold" style="color: white;">🎫 Popüler Konserler</h1>
+    <p class="lead" style="color: rgba(255,255,255,0.9);">En sevdiğin sanatçıların konserlerine bilet al!</p>
+</div>
+
+<div class="row" id="eventList">
+    <div class="col-12 text-center">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    if (typeof loadEvents === 'function') {
+        loadEvents();
+    } else {
+        setTimeout(function () {
+            if (typeof loadEvents === 'function') {
+                loadEvents();
+            }
+        }, 500);
+    }
+</script>
+{% endblock %}

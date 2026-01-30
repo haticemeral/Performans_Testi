@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="form-box">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">✨ Yeni Hesap Oluştur</h2>
+                <p class="text-muted">Hemen kayıt ol ve konser biletlerini keşfet!</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Kullanıcı Adı</label>
+                <input id="regUser" type="text" class="form-control form-control-lg" placeholder="Kullanıcı adı seç">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Şifre</label>
+                <input id="regPass" type="password" class="form-control form-control-lg"
+                    placeholder="Güçlü bir şifre oluştur">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Şifre Tekrar</label>
+                <input id="regPass2" type="password" class="form-control form-control-lg"
+                    placeholder="Şifreni tekrar gir">
+            </div>
+
+            <button class="btn btn-success btn-lg w-100 mb-3" onclick="registerUser()">Kayıt Ol</button>
+
+            <div class="text-center">
+                <p class="mb-0 text-muted">Zaten hesabın var mı? <a href="/login"
+                        class="text-decoration-none fw-semibold">Giriş Yap</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

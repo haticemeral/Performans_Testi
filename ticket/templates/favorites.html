@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">❤️ Favori Konserlerim</h1>
+    <p class="lead text-muted">Beğendiğin etkinlikleri buradan takip et</p>
+</div>
+
+<div class="row" id="favList">
+    <div class="col-12 text-center">
+        <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const posters = {
+        "Duman": "/static/images/duman.jpg",
+        "Adamlar": "/static/images/adamlar.jpg",
+        "Yüzyüzeyken Konuşuruz": "/static/images/yyk.jpg",
+        "Manifest": "/static/images/manifest.jpg",
+        "Dedublüman": "/static/images/dedubluman.jpg",
+        "Göksel": "/static/images/goksel.jpg"
+    };
+
+    fetch('/api/favorites')
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById("favList").innerHTML = `
+                    <div class="col-12 text-center">
+                        <div class="alert alert-warning">
+                            <h5>⚠️ ${data.error}</h5>
+                            <a href="/login" class="btn btn-primary mt-2">Giriş Yap</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            if (data.length === 0) {
+                document.getElementById("favList").innerHTML = `
+                    <div class="col-12 text-center">
+                        <div class="alert alert-info">
+                            <h5>💔 Henüz favori eklemedin</h5>
+                            <p>Beğendiğin konserleri favorilere ekleyerek buradan takip edebilirsin!</p>
+                            <a href="/" class="btn btn-primary mt-2">Konserlere Göz At</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = "";
+            data.forEach(e => {
+                let img = posters[e.name] || "/static/images/dedubluman.jpg";
+                html += `
+                <div class="col-md-4 mb-4">
+                    <div class="concert-card">
+                        <img src="${img}" class="poster" alt="${e.name}">
+                        <div class="p-3">
+                            <h4 class="fw-bold">${e.name}</h4>
+                            <p class="text-muted mb-2">📍 ${e.location}</p>
+                            <p class="text-muted mb-3">📅 ${e.date}</p>
+                            <p class="fw-semibold mb-3">🎫 Kalan: ${e.stock} bilet</p>
+                            <a href="/event/${e.id}" class="btn btn-primary w-100">Bilet Al</a>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            document.getElementById("favList").innerHTML = html;
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById("favList").innerHTML = `
+                <div class="col-12 text-center">
+                    <div class="alert alert-danger">Bir hata oluştu!</div>
+                </div>
+            `;
+        });
+</script>
+
+{% endblock %}
